@@ -1,0 +1,368 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verion API</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+  </head>
+
+  <body>
+    <div class="grid-pattern"></div>
+
+    <div class="dashboard-container">
+      <aside class="sidebar">
+        <nav class="sidebar-nav">
+          <span class="sidebar-title">Dashboard</span>
+          <a href="#" class="sidebar-link active" data-panel="overview">
+            <i class="bx bx-home"></i> Overview
+          </a>
+          <a href="#" class="sidebar-link" data-panel="api-keys">
+            <i class="bx bx-key"></i> API Keys
+          </a>
+          <span class="sidebar-title">Settings</span>
+          <a href="#" class="sidebar-link" data-panel="account-settings">
+            <i class="bx bx-cog"></i> Account Settings
+          </a>
+
+          <a href="#" class="sidebar-link" data-panel="support">
+            <i class="bx bx-support"></i> Support
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <div class="sidebar-avatar">
+            {% with user.first_name|slice:":1" as f %}{% with user.last_name|slice:":1" as l %}
+            <img
+              src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><rect width='100%' height='100%' fill='green'/><text x='50%' y='58%' font-size='14' font-family='Inter, sans-serif' fill='white' text-anchor='middle' dominant-baseline='middle'>{{ f|upper }}{{ l|upper }}</text></svg>"
+              alt="Avatar"
+              width="32"
+              height="32"
+              back
+            />
+            {% endwith %}{% endwith %}
+          </div>
+          <div class="sidebar-username">
+            @{{ user.username|default:"User" }}
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="dashboard-content">
+        <!-- Overview Panel -->
+        <div class="content-panel active" id="overview-panel">
+          <div class="dashboard-header">
+            <div class="header-left">
+              <a href="{% url 'interface-page' %}" class="btn btn-ghost"
+                ><i class="bx bx-left-arrow-alt"></i> Back</a
+              >
+              <h1 class="dashboard-title">API Dashboard</h1>
+            </div>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-card-title">Total Requests</span>
+                <div class="stat-card-icon"><i class="bx bx-stats"></i></div>
+              </div>
+              <div class="stat-card-value">{{ total_requests }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-card-title">Successful</span>
+                <div class="stat-card-icon">
+                  <i class="bx bx-check-circle"></i>
+                </div>
+              </div>
+              <div class="stat-card-value">{{ successful_requests }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-card-title">Blocked</span>
+                <div class="stat-card-icon"><i class="bx bx-block"></i></div>
+              </div>
+              <div class="stat-card-value">{{ blocked_requests }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span class="stat-card-title">Avg. Response</span>
+                <div class="stat-card-icon"><i class="bx bx-time"></i></div>
+              </div>
+              <div class="stat-card-value">
+                {% if avg_duration %} {{ avg_duration.total_seconds|floatformat:2 }}s {% else %} — {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="activity-container">
+            <div class="activity-header">
+              <h3 class="activity-title">Recent Activity</h3>
+            </div>
+            <table class="activity-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Endpoint</th>
+                  <th>Status</th>
+                  <th>Duration</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for log in user_logs %}
+                <tr>
+                  <td>{{ log.timestamp|timesince }} ago</td>
+                  <td class="activity-endpoint">
+                    {{ log.method }} {{ log.path }}
+                  </td>
+                  <td>
+                    <span
+                      class="activity-status {% if log.status_code < 300 %}status-success{% else %}status-error{% endif %}"
+                    >
+                      {{ log.status_code }}
+                    </span>
+                    <span class="status-tooltip">
+                      ?
+                      <span class="tooltip-text"
+                        >Status codes indicate request success/failure. Learn
+                        more
+                        <a
+                          href="https://developer.mozilla.org/docs/Web/HTTP/Reference/Status"
+                          target="_blank"
+                          >here</a
+                        ></span
+                      >
+                    </span>
+                  </td>
+                  <td>
+                    {% if log.duration %} {{ log.duration.total_seconds|floatformat:3 }}s {% else %} — {% endif %}
+                  </td>
+                  <td>{{ log.ip_address|default:"N/A" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="5">No API requests recorded yet.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- API Keys Panel -->
+        <div class="content-panel" id="api-keys-panel">
+          <div class="dashboard-header">
+            <div class="header-left">
+              <a href="#" class="btn btn-ghost"
+                ><i class="bx bx-left-arrow-alt"></i> Back</a
+              >
+              <h1 class="dashboard-title">API Keys Management</h1>
+            </div>
+            <div class="dashboard-actions">
+              <button class="btn btn-primary" id="createKeyBtn">
+                <i class="bx bx-plus"></i> Create API Key
+              </button>
+            </div>
+          </div>
+
+          <div class="activity-container">
+            <div class="activity-header">
+              <h3 class="activity-title">Your API Keys</h3>
+            </div>
+            <table class="keys-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Key</th>
+                  <th>Created</th>
+                  <th>Status</th>
+                  <th>Requests</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for key in key_stats %}
+                <tr>
+                  <td>{{ key.key_name }}</td>
+                  <td class="key-masked">{{ key.key_hash }}</td>
+                  <td>{{ key.created_at|date:"M d, Y H:i" }}</td>
+                  {% if key.is_active_key %}
+                  <span style="color: var(--success-color)">Active</span>
+                  {% else %}
+                  <span style="color: #ff4d4d">Revoked</span>
+                  {% endif %}
+                  <td>{{ key.request_count }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="5">You haven't created any API keys yet.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Account Settings Panel -->
+        <div class="content-panel" id="account-settings-panel">
+          <div class="dashboard-header">
+            <div class="header-left">
+              <a href="#" class="btn btn-ghost"
+                ><i class="bx bx-left-arrow-alt"></i> Back</a
+              >
+              <h1 class="dashboard-title">Account Settings</h1>
+            </div>
+          </div>
+
+          <div class="settings-container">
+            <div class="settings-section">
+              <h3 class="settings-title">Profile Information</h3>
+              <div class="settings-form">
+                <div class="form-group">
+                  <label class="form-label">First Name</label>
+                  <input type="text" class="form-input" value="John" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Last Name</label>
+                  <input type="text" class="form-input" value="Doe" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Address</label>
+                  <input
+                    type="email"
+                    class="form-input"
+                    value="john.doe@example.com"
+                  />
+                </div>
+              </div>
+              <button class="btn btn-primary" style="margin-top: 20px">
+                Update Profile
+              </button>
+            </div>
+
+            <div class="settings-section">
+              <h3 class="settings-title">Security</h3>
+              <div class="settings-form">
+                <div class="form-group">
+                  <label class="form-label">Current Password</label>
+                  <input type="password" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">New Password</label>
+                  <input type="password" class="form-input" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Confirm New Password</label>
+                  <input type="password" class="form-input" />
+                </div>
+              </div>
+              <button class="btn btn-primary" style="margin-top: 20px">
+                Change Password
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Support Panel -->
+        <div class="content-panel" id="support-panel">
+          <div class="dashboard-header">
+            <div class="header-left">
+              <a href="#" class="btn btn-ghost"
+                ><i class="bx bx-left-arrow-alt"></i> Back</a
+              >
+              <h1 class="dashboard-title">Support Center</h1>
+            </div>
+          </div>
+
+          <div class="support-container">
+            <div class="support-cards">
+              <div class="support-card">
+                <div class="support-card-icon">
+                  <i class="bx bx-book"></i>
+                </div>
+                <h3>Documentation</h3>
+                <p>
+                  Browse our comprehensive API documentation and integration
+                  guides.
+                </p>
+                <a href="{% url 'docs-page' %}" class="btn">View Docs</a>
+              </div>
+
+              <div class="support-card">
+                <div class="support-card-icon">
+                  <i class="bx bx-message"></i>
+                </div>
+                <h3>Contact Support</h3>
+                <p>
+                  Get help from our technical support team for any issues you
+                  encounter.
+                </p>
+                <a href="https://discord.gg/pQTqppHmp8" class="btn"
+                  >Open Ticket</a
+                >
+              </div>
+
+              <div class="support-card">
+                <div class="support-card-icon">
+                  <i class="bx bx-error-circle"></i>
+                </div>
+                <h3>Report Issue</h3>
+                <p>
+                  Found a bug or experiencing problems? Let us know about it.
+                </p>
+                <a href="https://discord.gg/pQTqppHmp8" class="btn"
+                  >Report Problem</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Create API Key Modal -->
+    <div class="modal-overlay" id="newKeyModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title">Create New API Key</h3>
+          <button class="modal-close" id="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="keyNameInput">Key Name</label>
+            <input
+              type="text"
+              name="key_name"
+              id="keyNameInput"
+              class="form-input"
+              placeholder="e.g. Production, Development"
+              required
+            />
+          </div>
+          <div
+            id="keyResponse"
+            class="generated-key"
+            style="display: none"
+          ></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" id="cancelModal">Cancel</button>
+          <button class="btn btn-primary" id="submitKeyBtn">Create Key</button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="{% static 'js/dashboard.js' %}"></script>
+</html>

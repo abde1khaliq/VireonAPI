@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vireon API | Login</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <style>
+      :root {
+        --primary-bg: #000000;
+        --secondary-bg: #0a0a0a;
+        --accent-color: #ffffff;
+        --accent-hover: rgba(255, 255, 255, 0.8);
+        --text-primary: #ffffff;
+        --text-secondary: #aaaaaa;
+        --card-bg: rgba(20, 20, 20, 0.6);
+        --border-color: rgba(255, 255, 255, 0.1);
+        --success-color: #00ff9d;
+        --error-color: #ff5252;
+        --glow: 0 0 15px rgba(255, 255, 255, 0.3);
+        --highlight: #ff89f0;
+        --code-bg: rgba(15, 15, 25, 0.8);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: var(--primary-bg);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(255, 255, 255, 0.05) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(255, 255, 255, 0.05) 0%,
+            transparent 20%
+          );
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .grid-pattern {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(
+            rgba(255, 255, 255, 0.03) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      /* Login Container */
+      .login-container {
+        width: 100%;
+        max-width: 500px;
+        padding: 40px;
+        background: var(--card-bg);
+        border-radius: 16px;
+        border: 1px solid var(--border-color);
+        position: relative;
+        overflow: hidden;
+        z-index: 2;
+      }
+
+      .logo {
+        text-align: center;
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .logo-icon {
+        font-size: 48px;
+        margin-bottom: 15px;
+        color: var(--highlight);
+      }
+
+      .logo h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--highlight);
+        margin-bottom: 8px;
+      }
+
+      .logo p {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .form-group {
+        position: relative;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        font-weight: 500;
+      }
+
+      .input-wrapper {
+        position: relative;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 14px 20px 14px 48px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        color: var(--text-primary);
+        font-family: "Inter", sans-serif;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: var(--highlight);
+        box-shadow: 0 0 0 3px rgba(255, 137, 240, 0.2);
+      }
+
+      .input-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+      }
+
+      .form-input:focus + .input-icon {
+        color: var(--highlight);
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      .password-toggle:hover {
+        color: var(--accent-color);
+      }
+
+      .remember-forgot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 5px;
+      }
+
+      .remember {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .remember input {
+        accent-color: var(--highlight);
+      }
+
+      .remember label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        cursor: pointer;
+      }
+
+      .forgot-password {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .forgot-password:hover {
+        color: var(--highlight);
+      }
+
+      .btn {
+        background: transparent;
+        color: var(--accent-color);
+        border: 1px solid var(--border-color);
+        padding: 14px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        font-family: "Poppins";
+      }
+
+      .btn-login {
+        background: var(--highlight);
+        color: #000;
+        border: none;
+        margin-top: 10px;
+      }
+
+      .btn-login:hover {
+        background: var(--accent-color);
+        transform: translateY(-2px);
+      }
+
+      .signup-link {
+        text-align: center;
+        margin-top: 25px;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+
+      .signup-link a {
+        color: var(--highlight);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .signup-link a:hover {
+        color: var(--accent-color);
+        text-decoration: underline;
+      }
+
+      /* Responsive */
+      @media (max-width: 480px) {
+        .login-container {
+          padding: 30px 20px;
+          margin: 0 20px;
+        }
+
+        .logo h1 {
+          font-size: 24px;
+        }
+
+        .remember-forgot {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+      }
+    </style>
+    <div class="grid-pattern"></div>
+
+    <div class="login-container">
+      <div class="logo">
+        <h1>Sign in</h1>
+
+      </div>
+
+      <form class="login-form" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label class="form-label">Username</label>
+          <div class="input-wrapper">
+            <input
+              type="text"
+              class="form-input"
+              placeholder="Enter your username"
+              name="username"
+              required
+            />
+            <i class="bx bx-user input-icon"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="password"
+              class="form-input"
+              placeholder="Enter your password"
+              name="password"
+              required
+            />
+            <i class="bx bx-lock-alt input-icon"></i>
+            <span class="password-toggle" id="togglePassword">
+              <i class="bx bx-hide"></i>
+            </span>
+          </div>
+        </div>
+
+        <!-- <div class="remember-forgot">
+          <div class="remember">
+            <input type="checkbox" id="remember" />
+            <label for="remember">Remember me</label>
+          </div>
+          <a href="#" class="forgot-password">Forgot password?</a>
+        </div> -->
+
+        <button type="submit" class="btn btn-login">
+          <i class="bx bx-log-in"></i>
+          Sign In
+        </button>
+
+        <div class="signup-link">
+          Don't have an account? <a href="{% url 'register' %}">Create one!</a>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

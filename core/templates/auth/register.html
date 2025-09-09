@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vireon API | Register</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <style>
+      :root {
+        --primary-bg: #000000;
+        --secondary-bg: #0a0a0a;
+        --accent-color: #ffffff;
+        --accent-hover: rgba(255, 255, 255, 0.8);
+        --text-primary: #ffffff;
+        --text-secondary: #aaaaaa;
+        --card-bg: rgba(20, 20, 20, 0.6);
+        --border-color: rgba(255, 255, 255, 0.1);
+        --success-color: #00ff9d;
+        --error-color: #ff5252;
+        --glow: 0 0 15px rgba(255, 255, 255, 0.3);
+        --highlight: #ff89f0;
+        --code-bg: rgba(15, 15, 25, 0.8);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: var(--primary-bg);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(255, 255, 255, 0.05) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            circle at 90% 80%,
+            rgba(255, 255, 255, 0.05) 0%,
+            transparent 20%
+          );
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .grid-pattern-register {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(
+            rgba(255, 255, 255, 0.03) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      /* Register Container */
+      .register-container {
+        width: 100%;
+        max-width: 520px;
+        padding: 40px;
+        background: var(--card-bg);
+        border-radius: 16px;
+        border: 1px solid var(--border-color);
+        position: relative;
+        overflow: hidden;
+        z-index: 2;
+        margin-top: 50px;
+        margin-bottom: 50px;
+      }
+
+
+      .register-header {
+        text-align: center;
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .register-header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--highlight);
+        margin-bottom: 8px;
+      }
+
+      .register-header p {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+
+      .register-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .register-group {
+        position: relative;
+      }
+
+      .register-label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        font-weight: 500;
+      }
+
+      .register-input-wrapper {
+        position: relative;
+      }
+
+      .register-input {
+        width: 100%;
+        padding: 14px 20px 14px 48px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        color: var(--text-primary);
+        font-family: "Inter", sans-serif;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .register-input:focus {
+        outline: none;
+        border-color: var(--highlight);
+        box-shadow: var(--highlight)
+      }
+
+      .register-input-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+      }
+
+      .register-input:focus + .register-input-icon {
+        color: var(--highlight);
+      }
+
+      .register-password-toggle {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      .register-password-toggle:hover {
+        color: var(--accent-color);
+      }
+
+      .password-strength {
+        margin-top: 8px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+
+      .strength-meter {
+        height: 100%;
+        width: 0%;
+        background: var(--error-color);
+        transition: all 0.3s ease;
+      }
+
+      .password-hints {
+        margin-top: 8px;
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+      }
+
+      .password-hints ul {
+        padding-left: 20px;
+        margin-top: 5px;
+      }
+
+      .password-hints li {
+        margin-bottom: 3px;
+      }
+
+      .password-hints .valid {
+        color: var(--success-color);
+      }
+
+      .register-btn {
+        background: transparent;
+        color: var(--accent-color);
+        border: 1px solid var(--border-color);
+        padding: 14px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        font-family: "Poppins";
+      }
+
+      .btn-register {
+        background: var(--highlight);
+        color: #000;
+        border: none;
+        margin-top: 15px;
+      }
+
+      .btn-register:hover {
+        transform: translateY(-2px);
+      }
+
+      .login-redirect {
+        text-align: center;
+        margin-top: 25px;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+
+      .login-redirect a {
+        color: var(--highlight);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .login-redirect a:hover {
+        color: var(--accent-color);
+        text-decoration: underline;
+      }
+
+      /* Two column layout for name fields */
+      .name-fields {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      /* Terms checkbox */
+      .terms-agreement {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 10px 0;
+      }
+
+      .terms-agreement input {
+        margin-top: 3px;
+        accent-color: var(--success-color);
+      }
+
+      .terms-agreement label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+
+      .terms-agreement a {
+        color: var(--highlight);
+        text-decoration: none;
+      }
+
+      .terms-agreement a:hover {
+        text-decoration: underline;
+      }
+
+      /* Responsive */
+      @media (max-width: 480px) {
+        .register-container {
+          padding: 30px 20px;
+          margin: 0 20px;
+        }
+
+        .register-header h1 {
+          font-size: 24px;
+        }
+
+        .name-fields {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+      }
+    </style>
+    <div class="grid-pattern-register"></div>
+
+    <div class="register-container">
+      <div class="register-header">
+        <h1>Create Account</h1>
+        <p>Join the Vireon API platform</p>
+      </div>
+
+      <form class="register-form" method="post">
+        {% csrf_token %}
+        <div class="name-fields">
+          <div class="register-group">
+            <label class="register-label">First Name</label>
+            <div class="register-input-wrapper">
+              <input
+                type="text"
+                class="register-input"
+                placeholder="First name"
+                name="first_name"
+                required
+              />
+              <i class="bx bx-user-pin register-input-icon"></i>
+            </div>
+          </div>
+
+          <div class="register-group">
+            <label class="register-label">Last Name</label>
+            <div class="register-input-wrapper">
+              <input
+                type="text"
+                class="register-input"
+                placeholder="Last name"
+                name="last_name"
+                required
+              />
+              <i class="bx bx-user-pin register-input-icon"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="register-group">
+          <label class="register-label">Email Address</label>
+          <div class="register-input-wrapper">
+            <input
+              type="email"
+              class="register-input"
+              placeholder="your@email.com"
+              name="email"
+              required
+            />
+            <i class="bx bx-envelope register-input-icon"></i>
+          </div>
+        </div>
+
+        <div class="register-group">
+          <label class="register-label">Username</label>
+          <div class="register-input-wrapper">
+            <input
+              type="text"
+              class="register-input"
+              placeholder="Choose a username"
+              name="username"
+              required
+            />
+            <i class="bx bx-user register-input-icon"></i>
+          </div>
+        </div>
+
+        <div class="register-group">
+          <label class="register-label">Password</label>
+          <div class="register-input-wrapper">
+            <input
+              type="password"
+              id="registerPassword"
+              class="register-input"
+              placeholder="Create a password"
+              name="password1"
+              required
+            />
+            <i class="bx bx-lock-alt register-input-icon"></i>
+            <span class="register-password-toggle" id="toggleRegisterPassword">
+              <i class="bx bx-hide"></i>
+            </span>
+          </div>
+          <div class="password-strength">
+            <div class="strength-meter" id="passwordStrength"></div>
+          </div>
+          <div class="password-hints">
+            <p>Your password should contain:</p>
+            <ul>
+              <li id="lengthHint">At least 8 characters</li>
+              <li id="numberHint">At least one number</li>
+              <li id="specialHint">At least one special character</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="register-group">
+          <label class="register-label">Confirm Password</label>
+          <div class="register-input-wrapper">
+            <input
+              type="password"
+              id="confirmPassword"
+              class="register-input"
+              placeholder="Confirm your password"
+              name="password2"
+              required
+            />
+            <i class="bx bx-lock-alt register-input-icon"></i>
+            <span class="register-password-toggle" id="toggleConfirmPassword">
+              <i class="bx bx-hide"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="terms-agreement">
+          <input type="checkbox" id="terms" required />
+          <label for="terms">
+            I agree to the <a href="#">Terms of Service</a> and
+            <a href="#">Privacy Policy</a>
+          </label>
+        </div>
+
+        <button type="submit" class="register-btn btn-register">
+          <i class="bx bx-user-plus"></i>
+          Create Account
+        </button>
+
+        <div class="login-redirect">
+          Already have an account? <a href="{% url 'login' %}">Sign in</a>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      // Password toggle functionality
+      const toggleRegisterPassword = document.querySelector('#toggleRegisterPassword');
+      const registerPassword = document.querySelector('#registerPassword');
+      const toggleConfirmPassword = document.querySelector('#toggleConfirmPassword');
+      const confirmPassword = document.querySelector('#confirmPassword');
+      const strengthMeter = document.querySelector('#passwordStrength');
+      const passwordHints = {
+        length: document.querySelector('#lengthHint'),
+        number: document.querySelector('#numberHint'),
+        special: document.querySelector('#specialHint')
+      };
+
+      toggleRegisterPassword.addEventListener('click', function() {
+        const type = registerPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+        registerPassword.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bx bx-hide"></i>' : '<i class="bx bx-show"></i>';
+      });
+
+      toggleConfirmPassword.addEventListener('click', function() {
+        const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+        confirmPassword.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bx bx-hide"></i>' : '<i class="bx bx-show"></i>';
+      });
+
+      // Password strength checker
+      registerPassword.addEventListener('input', function() {
+        const password = this.value;
+        let strength = 0;
+        
+        // Length check
+        if (password.length >= 8) {
+          strength += 1;
+          passwordHints.length.classList.add('valid');
+        } else {
+          passwordHints.length.classList.remove('valid');
+        }
+        
+        // Number check
+        if (/\d/.test(password)) {
+          strength += 1;
+          passwordHints.number.classList.add('valid');
+        } else {
+          passwordHints.number.classList.remove('valid');
+        }
+        
+        // Special character check
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+          strength += 1;
+          passwordHints.special.classList.add('valid');
+        } else {
+          passwordHints.special.classList.remove('valid');
+        }
+        
+        // Update strength meter
+        const width = (strength / 3) * 100;
+        strengthMeter.style.width = `${width}%`;
+        
+        // Update meter color
+        if (strength === 1) {
+          strengthMeter.style.background = 'var(--error-color)';
+        } else if (strength === 2) {
+          strengthMeter.style.background = 'orange';
+        } else if (strength === 3) {
+          strengthMeter.style.background = 'var(--success-color)';
+        }
+      });
+    </script>
+  </body>
+</html>

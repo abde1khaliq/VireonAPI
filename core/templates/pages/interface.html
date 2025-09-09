@@ -1,0 +1,412 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vireon | Advanced Content Moderation API</title>
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/interface.css' %}" />
+</head>
+
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="navitems-container">
+                <a href="#" style="text-decoration: none;"><img
+                        src="https://i.postimg.cc/CLJpsJm6/vireon-logo-emerald.png" alt="Vireon Logo" class="logo"></a>
+                <nav class="nav-links">
+                    <a href="{% url 'docs-page' %}" class="nav-link">Documentation</a>
+                    <a href="#status" class="nav-link">Status</a>
+                    <a href="#pricing" class="nav-link">Support</a>
+                    <a href="#support" class="nav-link">Community</a>
+                </nav>
+            </div>
+            {% if user.is_authenticated %}
+            <div class="avatar" style="width: 40px; height: 40px; background-color: rgb(233, 233, 233); border-radius: 50px;"></div>
+            {% else %}
+            <a href="{% url 'login' %}" class="button-primary">Sign In</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">API That <span class="hero-highlight">Filters the Noise</span>, So You Don't Have
+                    To.</h1>
+                <p class="hero-subtitle"><span class="hero-sub_highlight">Vireon's philosophy</span>: Block the bad.
+                    Keep the good. All automatic.</p>
+                <div class="hero-buttons">
+                    <a href="{% url 'dashboard-page' %}" class="button-secondary hero-btn">Get Started</a>
+                    <a href="{% url 'docs-page' %}" class="button-primary hero-btn">Documentation</a>
+                </div>
+            </div>
+        </section>
+
+        <section class='features-section'>
+            <div class="features-content">
+                <div class="features-headers">
+                    <p class="features-header"><i class='bx  bx-sparkles-alt'></i> Our features</p>
+                    <h1 class="features-subheader">Trust Starts Here</h1>
+                </div>
+
+                <!-- Feature Boxes Container -->
+                <div class="features-container">
+                    <!-- Feature Box 1 -->
+                    <div class="feature-box">
+                        <div class="feature-icon"><i class='bx  bx-filter'></i></div>
+                        <h3 class="feature-title">Real-Time Content Filtering</h3>
+                        <p class="feature-subtitle">Smart detection for text and media</p>
+                        <p class="feature-description">Instantly scan user-generated content for profanity, hate speech,
+                            and NSFW imagery. Supports multilingual input, slang detection, and embedded text in images
+                            via OCR.</p>
+                    </div>
+
+                    <!-- Feature Box 2 -->
+                    <div class="feature-box">
+                        <div class="feature-icon"><i class='bx  bx-dashboard'></i></div>
+                        <h3 class="feature-title">Moderation Dashboard</h3>
+                        <p class="feature-subtitle">Visual insights for trust and safety teams</p>
+                        <p class="feature-description">Track flagged content, review moderation history, and analyze
+                            trends. Export reports for compliance or internal audits with one click.</p>
+                    </div>
+
+                    <!-- Feature Box 3 -->
+                    <div class="feature-box">
+                        <div class="feature-icon"><i class='bx  bx-image'></i></div>
+                        <h3 class="feature-title">Image & Media Scanning</h3>
+                        <p class="feature-subtitle">Beyond surface-level detection</p>
+                        <p class="feature-description">Detect nudity, violence, and graphic content using AI-powered
+                            classifiers. Includes OCR for text inside images and thumbnail previews for flagged media.
+                        </p>
+                    </div>
+
+                    <!-- Feature Box 4 -->
+                    <div class="feature-box">
+                        <div class="feature-icon"><i class='bx  bx-lock'></i></div>
+                        <h3 class="feature-title">Security & Privacy</h3>
+                        <p class="feature-subtitle">Built for compliance and protection</p>
+                        <p class="feature-description">All API calls are encrypted end-to-end. Includes rate limiting,
+                            abuse protection, and secure data handling.</p>
+                    </div>
+
+                    <!-- Feature Box 5 -->
+                    <div class="feature-box">
+                        <div class="feature-icon"><i class='bx  bx-book-open'></i></div>
+                        <h3 class="feature-title">Interactive API Docs</h3>
+                        <p class="feature-subtitle">Developer-first experience</p>
+                        <p class="feature-description">Live playground, multi-language code snippets. Designed for fast
+                            integration and zero guesswork.</p>
+                    </div>
+
+                    <!-- Feature Box 6 -->
+                    <div class="feature-box">
+                        <div class="feature-icon"><i class='bx  bx-globe'></i></div>
+                        <h3 class="feature-title">Our Community</h3>
+                        <p class="feature-subtitle">Learn, share, improve</p>
+                        <p class="feature-description">A space for developers and moderators to exchange ideas, request
+                            features, and share best practices for ethical content filtering.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testing Section -->
+        <section class="testing-section">
+            <div class="testing-content">
+                <div class="testing-headers">
+                    <p class="testing-header"><i class='bx bx-test-tube'></i> Try Vireon</p>
+                    <h1 class="testing-subheader">Don't believe us? Try it yourself</h1>
+                    <p class="testing-description">Test our content moderation API with your own text or images</p>
+                </div>
+
+                <div class="testing-container">
+                    <!-- Tab Navigation -->
+                    <div class="testing-tabs">
+                        <button class="testing-tab active" data-tab="text">
+                            <i class='bx bx-text'></i> Text Moderation
+                        </button>
+                        <button class="testing-tab" data-tab="image">
+                            <i class='bx bx-image'></i> Image Moderation
+                        </button>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="testing-tab-content">
+                        <!-- Text Input Tab -->
+                        <div class="tab-pane active" id="text-tab">
+                            <div class="input-container">
+                                <textarea id="text-input"
+                                    placeholder="Enter text to analyze for profanity, hate speech, or inappropriate content..."
+                                    rows="6"></textarea>
+                                <button id="analyze-text" class="button-secondary analyze-btn">Analyze Text</button>
+                            </div>
+                        </div>
+
+                        <!-- Image Input Tab -->
+                        <div class="tab-pane" id="image-tab">
+                            <div class="input-container">
+                                <div class="image-upload-area" id="image-upload-area">
+                                    <i class='bx bx-cloud-upload'></i>
+                                    <p>Drag & drop an image here or <span class="browse-link">browse files</span></p>
+                                    <input type="file" id="image-input" accept="image/*" hidden>
+                                </div>
+                                <div class="image-preview" id="image-preview" style="display: none;">
+                                    <img id="preview-img" src="" alt="Preview">
+                                    <button class="remove-image" id="remove-image">
+                                        <i class='bx bx-x'></i>
+                                    </button>
+                                </div>
+                                <button id="analyze-image" class="button-secondary analyze-btn" disabled>
+                                    <i class='bx bx-search-alt'></i> Analyze Image
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Display -->
+                    <div class="results-container" id="results-container">
+                        <div class="results-header">
+                            <h3>Analysis Results</h3>
+                            <div class="result-status" id="result-status">
+                                <span class="status-badge">Not analyzed</span>
+                            </div>
+                        </div>
+                        <div class="results-content" id="results-content">
+                            <div class="no-data">Analysis results will appear here after you run a test.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="pricing-section">
+            <div class="container">
+                <div class="section-headers">
+                    <p class="section-tagline"><i class='bxr  bx-dollar'></i> Pricing</p>
+                    <h2 class="section-title">Clear Plans. Powerful Protection.</h2>
+                    <p class="section-description">Choose the plan that works best for your needs</p>
+                </div>
+
+                <div class="pricing-cards">
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Free</h3>
+                            <div class="price">
+                                <span class="amount">$0</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <p class="price-description">Suits testing and early-stage projects</p>
+                        </div>
+                        <ul class="features-list">
+                            <li><i class='bx  bx-database-alt'></i>1,000 Tokens Limit</li>
+                            <li><i class='bx  bx-clock-11'></i> Refill rate: 1 token/90s</li>
+                            <li><i class='bx bx-italic'></i> Text & image moderation</li>
+                            <li><i class='bx  bx-chart-line'></i> Basic analytics</li>
+                        </ul>
+
+                        <button class="button-secondary full-width"
+                            style="color: white; background-color: var(--text-secondary); border: none; cursor: default;">Owned</button>
+                    </div>
+
+                    <!-- Starter Plan -->
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Vireon Pulse</h3>
+                            <div class="price">
+                                <span class="amount">$4.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <p class="price-description">Perfect for indie devs and small apps</p>
+                        </div>
+                        <ul class="features-list">
+                            <li><i class='bx  bx-database-alt'></i>10,000 Tokens Limit</li>
+                            <li><i class='bx  bx-clock-11'></i> Refill rate: 1 token/8s</li>
+                            <li><i class='bx bx-italic'></i> Text & image moderation</li>
+                            <li><i class='bx  bx-chart-line'></i> Basic analytics</li>
+                        </ul>
+                        <button class="button-secondary full-width">Subscribe</button>
+                    </div>
+
+                    <div class="pricing-card featured">
+                        <div class="pricing-badge">Most Popular</div>
+                        <div class="pricing-header">
+                            <h3>Vireon Shield</h3>
+                            <div class="price">
+                                <span class="amount">$19.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <p class="price-description">For platforms with active communities</p>
+                        </div>
+                        <ul class="features-list">
+                            <li><i class='bx  bx-database-alt'></i>50,000 Tokens Limit</li>
+                            <li><i class='bx  bx-clock-11'></i> Refill rate: 1 token/1.5s</li>
+                            <li><i class='bx bx-italic'></i> Text & image moderation</li>
+                            <li><i class='bx  bx-chart-line'></i> Basic analytics</li>
+                        </ul>
+                        <button class="button-pricing full-width">Subscribe</button>
+                    </div>
+
+                    <!-- Professional Plan -->
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Vireon Cortex</h3>
+                            <div class="price">
+                                <span class="amount">$49.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <p class="price-description">For vireon-grade protection</p>
+                        </div>
+                        <ul class="features-list">
+                            <li><i class='bx  bx-database-alt'></i>200,000 Tokens Limit</li>
+                            <li><i class='bx  bx-clock-11'></i> Refill rate: 1 token/0.5s</li>
+                            <li><i class='bx bx-italic'></i> Text & image moderation</li>
+                            <li><i class='bx  bx-chart-line'></i> Basic analytics</li>
+                        </ul>
+                        <button class="button-secondary full-width">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="container">
+                <div class="section-headers">
+                    <p class="section-tagline"><i class='bx bx-help-circle'></i> FAQs</p>
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-description">Everything you need to know about Vireon</p>
+                </div>
+
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            How accurate is Vireon's content moderation?
+                            <i class='bx bx-chevron-down'></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>VireonAPI is powered by cutting-edge AI models like Gemini, delivering precision at
+                                scale.
+                                Our moderation engine achieves an average accuracy of 98.7% across text, images, and
+                                embedded media. It’s trained on
+                                diverse, real-world datasets and continuously updated to adapt to evolving threats—from
+                                slang and context-sensitive
+                                abuse to AI-generated content.
+                                You get high recall, low false positives, and real-time filtering—without the guesswork.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            What languages does Vireon support?
+                            <i class='bx bx-chevron-down'></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Our text moderation currently supports 12 languages including English, Spanish, French,
+                                German,
+                                Portuguese, Italian, Dutch, Russian, Arabic, Hindi, Japanese, and Chinese. We're
+                                continuously
+                                adding more languages based on customer demand.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            How quickly does the API respond?
+                            <i class='bx bx-chevron-down'></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Our average API response time is under 200ms for text moderation and under 500ms for
+                                image
+                                moderation.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            How do you handle data privacy?
+                            <i class='bx bx-chevron-down'></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>We take data privacy seriously. All API requests are encrypted in transit, and we don't
+                                store
+                                your content longer than necessary to process it.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <img src="https://i.postimg.cc/CLJpsJm6/vireon-logo-emerald.png" alt="Vireon Logo"
+                            class="footer-logo">
+                    </div>
+
+                    <div class="footer-links">
+                        <div class="footer-column">
+                            <h4>Product</h4>
+                            <ul>
+                                <li><a href="#">Features</a></li>
+                                <li><a href="#">Pricing</a></li>
+                                <li><a href="#">API Documentation</a></li>
+                                <li><a href="#">Status</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-column">
+                            <h4>Company</h4>
+                            <ul>
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-column">
+                            <h4>Resources</h4>
+                            <ul>
+                                <li><a href="#">Documentation</a></li>
+                                <li><a href="#">Community</a></li>
+                                <li><a href="#">Support</a></li>
+                                <li><a href="#">Webinars</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-column">
+                            <h4>Legal</h4>
+                            <ul>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Terms of Service</a></li>
+                                <li><a href="#">Security</a></li>
+                                <li><a href="#">Compliance</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Vireon. All rights reserved.</p>
+                    <div class="footer-bottom-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+</body>
+<script src="{% static 'js/interface.js' %}"></script>
+</html>
