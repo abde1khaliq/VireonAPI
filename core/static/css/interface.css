@@ -160,7 +160,7 @@ body {
   color: var(--text-primary);
   font-size: 14px;
   padding: 8px 15px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.102);
   background-color: #fff;
   border-radius: 4px;
   display: flex;

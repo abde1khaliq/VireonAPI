@@ -13,6 +13,10 @@ pillow = "*"
 drf-nested-routers = "*"
 google-generativeai = "*"
 django-cors-headers = "*"
+redis = "*"
+celery = "*"
+nltk = "*"
+rapidfuzz = "*"
 
 [dev-packages]
 
