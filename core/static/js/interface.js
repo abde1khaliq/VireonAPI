@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const response = await fetch('http://127.0.0.1:8000/v1/analyze/content/', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'Bearer 2cf82c1764f44f13d2bd2adcadc1b2b312eeb908e0e76f0c7497e340284642c9',
+                    'Authorization': 'Bearer testcase',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ user_input: textInput })
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const response = await fetch('http://127.0.0.1:8000/v1/analyze/content/', {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'Bearer 2cf82c1764f44f13d2bd2adcadc1b2b312eeb908e0e76f0c7497e340284642c9'
+                    'Authorization': 'Bearer testcase'
                 },
                 body: formData
             });
