@@ -31,9 +31,9 @@
             <i class="bx bx-key"></i> API Keys
           </a>
           <span class="sidebar-title">Settings</span>
-          <a href="#" class="sidebar-link" data-panel="account-settings">
+          <!-- <a href="#" class="sidebar-link" data-panel="account-settings">
             <i class="bx bx-cog"></i> Account Settings
-          </a>
+          </a> -->
 
           <a href="#" class="sidebar-link" data-panel="support">
             <i class="bx bx-support"></i> Support
@@ -216,7 +216,7 @@
         </div>
 
         <!-- Account Settings Panel -->
-        <div class="content-panel" id="account-settings-panel">
+        <!-- <div class="content-panel" id="account-settings-panel">
           <div class="dashboard-header">
             <div class="header-left">
               <a href="#" class="btn btn-ghost"
@@ -273,7 +273,7 @@
               </button>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- Support Panel -->
         <div class="content-panel" id="support-panel">
@@ -364,5 +364,82 @@
       </div>
     </div>
   </body>
-  <script src="{% static 'js/dashboard.js' %}"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+  const sidebarLinks = document.querySelectorAll(".sidebar-link");
+  const panels = document.querySelectorAll(".content-panel");
+
+  sidebarLinks.forEach((link) => {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      sidebarLinks.forEach((l) => l.classList.remove("active"));
+      panels.forEach((p) => p.classList.remove("active"));
+      this.classList.add("active");
+      const panelId = this.getAttribute("data-panel") + "-panel";
+      document.getElementById(panelId).classList.add("active");
+    });
+  });
+
+  // Modal functionality
+  const newKeyModal = document.getElementById("newKeyModal");
+  const createKeyBtn = document.getElementById("createKeyBtn");
+  const closeModal = document.getElementById("closeModal");
+  const cancelModal = document.getElementById("cancelModal");
+
+  function closeModalFunc() {
+    newKeyModal.classList.remove("active");
+    document.getElementById("keyNameInput").value = "";
+    document.getElementById("keyResponse").style.display = "none";
+    document.getElementById("keyResponse").innerHTML = "";
+  }
+
+  if (createKeyBtn) {
+    createKeyBtn.addEventListener("click", function () {
+      newKeyModal.classList.add("active");
+    });
+  }
+  if (closeModal) closeModal.addEventListener("click", closeModalFunc);
+  if (cancelModal) cancelModal.addEventListener("click", closeModalFunc);
+  newKeyModal.addEventListener("click", function (e) {
+    if (e.target === newKeyModal) closeModalFunc();
+  });
+
+  // Submit key creation
+  const submitBtn = document.getElementById("submitKeyBtn");
+  submitBtn.addEventListener("click", async () => {
+    const keyName = document.getElementById("keyNameInput").value.trim();
+    const responseBox = document.getElementById("keyResponse");
+
+    if (!keyName) {
+      responseBox.textContent = "Please enter a key name.";
+      responseBox.style.display = "block";
+      return;
+    }
+
+    const response = await fetch("{% url 'create_api_key_modal' %}", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+      body: new URLSearchParams({ key_name: keyName }),
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      responseBox.innerHTML = `
+            <strong>API Key created:</strong>
+            <code>${data.key}</code>
+            <button class="btn" onclick="navigator.clipboard.writeText('${data.key}')">Copy</button>
+            <small style="display:block;margin-top:4px;">Store this key now—it won’t be shown again.</small>
+          `;
+      responseBox.style.display = "block";
+    } else {
+      responseBox.textContent = data.error || "Something went wrong.";
+      responseBox.style.display = "block";
+    }
+  });
+});
+
+  </script>
 </html>

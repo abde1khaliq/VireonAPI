@@ -20,7 +20,7 @@ class ModerationService:
         return (
             f"You are a strict moderation assistant. Evaluate the following input: '{content}'.\n"
             "Focus entirely on the content itself and the word. Identify potential harm including profanity, hate speech, threats, or sexually explicit language.\n"
-            "Also focus on the arabic franko. words like 'kosomak' and so on.\n"
+            "Also focus on the arabic franko. and so on.\n"
             "Respond only with valid JSON in this format:\n"
             "{\n"
             '  "violation": boolean,\n'

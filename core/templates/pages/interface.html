@@ -21,9 +21,8 @@
                         src="https://i.postimg.cc/CLJpsJm6/vireon-logo-emerald.png" alt="Vireon Logo" class="logo"></a>
                 <nav class="nav-links">
                     <a href="{% url 'docs-page' %}" class="nav-link">Documentation</a>
-                    <a href="#status" class="nav-link">Status</a>
-                    <a href="#pricing" class="nav-link">Support</a>
-                    <a href="#support" class="nav-link">Community</a>
+                    <a href="https://discord.gg/pQTqppHmp8" class="nav-link">Support</a>
+                    <a href="https://discord.gg/pQTqppHmp8" class="nav-link">Community</a>
                 </nav>
             </div>
             {% if user.is_authenticated %}
@@ -48,7 +47,7 @@
             </div>
         </section>
 
-        <section class='features-section'>
+        <section class='features-section' aria-labelledby="features">
             <div class="features-content">
                 <div class="features-headers">
                     <p class="features-header"><i class='bx  bx-sparkles-alt'></i> Our features</p>
@@ -185,95 +184,6 @@
             </div>
         </section>
 
-        <!-- Pricing Section -->
-        <section class="pricing-section">
-            <div class="container">
-                <div class="section-headers">
-                    <p class="section-tagline"><i class='bxr  bx-dollar'></i> Pricing</p>
-                    <h2 class="section-title">Clear Plans. Powerful Protection.</h2>
-                    <p class="section-description">Choose the plan that works best for your needs</p>
-                </div>
-
-                <div class="pricing-cards">
-                    <div class="pricing-card">
-                        <div class="pricing-header">
-                            <h3>Free</h3>
-                            <div class="price">
-                                <span class="amount">$0</span>
-                                <span class="period">/month</span>
-                            </div>
-                            <p class="price-description">Suits testing and early-stage projects</p>
-                        </div>
-                        <ul class="features-list">
-                            <li><i class='bx  bx-database-alt'></i>1,000 Tokens Limit</li>
-                            <li><i class='bx  bx-clock-11'></i> Refill rate: 1 token/90s</li>
-                            <li><i class='bx bx-italic'></i> Text & image moderation</li>
-                            <li><i class='bx  bx-chart-line'></i> Basic analytics</li>
-                        </ul>
-
-                        <button class="button-secondary full-width"
-                            style="color: white; background-color: var(--text-secondary); border: none; cursor: default;">Owned</button>
-                    </div>
-
-                    <!-- Starter Plan -->
-                    <div class="pricing-card">
-                        <div class="pricing-header">
-                            <h3>Vireon Pulse</h3>
-                            <div class="price">
-                                <span class="amount">$4.99</span>
-                                <span class="period">/month</span>
-                            </div>
-                            <p class="price-description">Perfect for indie devs and small apps</p>
-                        </div>
-                        <ul class="features-list">
-                            <li><i class='bx  bx-database-alt'></i>10,000 Tokens Limit</li>
-                            <li><i class='bx  bx-clock-11'></i> Refill rate: 1 token/8s</li>
-                            <li><i class='bx bx-italic'></i> Text & image moderation</li>
-                            <li><i class='bx  bx-chart-line'></i> Basic analytics</li>
-                        </ul>
-                        <button class="button-secondary full-width">Subscribe</button>
-                    </div>
-
-                    <div class="pricing-card featured">
-                        <div class="pricing-badge">Most Popular</div>
-                        <div class="pricing-header">
-                            <h3>Vireon Shield</h3>
-                            <div class="price">
-                                <span class="amount">$19.99</span>
-                                <span class="period">/month</span>
-                            </div>
-                            <p class="price-description">For platforms with active communities</p>
-                        </div>
-                        <ul class="features-list">
-                            <li><i class='bx  bx-database-alt'></i>50,000 Tokens Limit</li>
-                            <li><i class='bx  bx-clock-11'></i> Refill rate: 1 token/1.5s</li>
-                            <li><i class='bx bx-italic'></i> Text & image moderation</li>
-                            <li><i class='bx  bx-chart-line'></i> Basic analytics</li>
-                        </ul>
-                        <button class="button-pricing full-width">Subscribe</button>
-                    </div>
-
-                    <!-- Professional Plan -->
-                    <div class="pricing-card">
-                        <div class="pricing-header">
-                            <h3>Vireon Cortex</h3>
-                            <div class="price">
-                                <span class="amount">$49.99</span>
-                                <span class="period">/month</span>
-                            </div>
-                            <p class="price-description">For vireon-grade protection</p>
-                        </div>
-                        <ul class="features-list">
-                            <li><i class='bx  bx-database-alt'></i>200,000 Tokens Limit</li>
-                            <li><i class='bx  bx-clock-11'></i> Refill rate: 1 token/0.5s</li>
-                            <li><i class='bx bx-italic'></i> Text & image moderation</li>
-                            <li><i class='bx  bx-chart-line'></i> Basic analytics</li>
-                        </ul>
-                        <button class="button-secondary full-width">Subscribe</button>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- FAQ Section -->
         <section class="faq-section">
@@ -355,54 +265,25 @@
 
                     <div class="footer-links">
                         <div class="footer-column">
-                            <h4>Product</h4>
-                            <ul>
-                                <li><a href="#">Features</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">API Documentation</a></li>
-                                <li><a href="#">Status</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4>Company</h4>
-                            <ul>
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Careers</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-column">
                             <h4>Resources</h4>
                             <ul>
-                                <li><a href="#">Documentation</a></li>
-                                <li><a href="#">Community</a></li>
-                                <li><a href="#">Support</a></li>
-                                <li><a href="#">Webinars</a></li>
+                                <li><a href="{% url 'dashboard-page' %}">Get Started</a></li>
+                                <li><a href="{% url 'docs-page' %}">API Documentation</a></li>
                             </ul>
                         </div>
 
                         <div class="footer-column">
-                            <h4>Legal</h4>
+                            <h4>Socials</h4>
                             <ul>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Terms of Service</a></li>
-                                <li><a href="#">Security</a></li>
-                                <li><a href="#">Compliance</a></li>
+                                <li><a href="https://discord.gg/pQTqppHmp8">Community</a></li>
+                                <li><a href="https://discord.gg/pQTqppHmp8">Support</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <div class="footer-bottom">
-                    <p>&copy; 2025 Vireon. All rights reserved.</p>
-                    <div class="footer-bottom-links">
-                        <a href="#">Privacy Policy</a>
-                        <a href="#">Terms of Service</a>
-                        <a href="#">Cookie Policy</a>
-                    </div>
+                    <p>&copy; 2025 Vireon. Made with 💞 by Abdelkhaliq</p>
                 </div>
             </div>
         </footer>

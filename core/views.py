@@ -1,10 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.views.decorators.http import require_POST
 from .forms import CustomUserCreationForm
 from django.db.models import Count, Avg
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from gateway.models import APIKey, RequestLog
+from django.http import JsonResponse
 
 def interface_view(request):
     return render(request, "pages/interface.html")
@@ -12,7 +14,7 @@ def interface_view(request):
 def documentation_view(request):
     return render(request, "pages/docs.html")
 
-@login_required(login_url='')
+@login_required(login_url='login')
 def dashboard_view(request):
     user_keys = APIKey.objects.filter(owned_by=request.user)
     user_logs = RequestLog.objects.filter(key__in=user_keys).order_by('-timestamp')
@@ -91,3 +93,15 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('interface-page')
+
+@login_required(login_url='login')
+@require_POST
+def create_api_key_modal(request):
+    key_name = request.POST.get('key_name')
+    if key_name:
+        key = APIKey.objects.create(
+            key_name=key_name,
+            owned_by=request.user
+        )
+        return JsonResponse({'success': True, 'key': key.key_hash})
+    return JsonResponse({'success': False, 'error': 'Missing key name'})

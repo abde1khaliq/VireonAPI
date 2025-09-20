@@ -1,8 +1,8 @@
 from rest_framework_nested import routers
-from . import views
+from .views import *
 
 router = routers.DefaultRouter()
-router.register(f'analyze', views.AnalyzeContentViewSet,
+router.register(f'analyze', AnalyzeContentViewSet,
                 basename='analyze-message')
 
 urlpatterns = [
