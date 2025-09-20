@@ -48,3 +48,31 @@ REST_FRAMEWORK = {
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+if DEBUG:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler'
+            },
+            'file': {
+                'class': 'logging.FileHandler',
+                'filename': 'vireon.log',
+                'formatter': 'verbose',
+            }
+        },
+        'loggers': {
+            '': {
+                'handlers': ['file'],
+                'level': config('DJANGO_LOG_LEVEL', default='ERROR')
+            }
+        },
+        'formatters': {
+            'verbose': {
+                'format': '{asctime} ({levelname}) - {name} - {message}',
+                'style': '{'
+            }
+        }
+    }

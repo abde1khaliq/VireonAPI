@@ -1,6 +1,8 @@
 from pathlib import Path
 import mimetypes
+from decouple import config
 import os
+from django.conf import settings
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 mimetypes.add_type("application/javascript", ".js", True)
