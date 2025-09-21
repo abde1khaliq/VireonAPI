@@ -4,5 +4,4 @@ staticfiles
 *.env
 Pipfile
 *.lock
-*.env
 *.log
