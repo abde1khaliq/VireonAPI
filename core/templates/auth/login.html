@@ -27,35 +27,51 @@
       </div>
       <form class="login-form" method="post">
         {% csrf_token %}
+
         <div class="form-group">
           <label class="form-label">Username</label>
           <div class="input-wrapper">
-            <input
-              type="text"
-              class="form-input"
-              placeholder="Enter your username"
-              name="username"
-              required
-            />
+            {{ form.username }}
             <i class="bx bx-user input-icon"></i>
           </div>
+          {% if form.username.errors %}
+          <div class="form-error">
+            <i class="bx bx-error-circle"></i>
+            <span>{{ form.username.errors.0 }}</span>
+          </div>
+          {% endif %}
         </div>
 
         <div class="form-group">
           <label class="form-label">Password</label>
           <div class="input-wrapper">
-            <input
-              type="password"
-              id="password"
-              class="form-input"
-              placeholder="Enter your password"
-              name="password"
-              required
-            />
+            {{ form.password }}
             <i class="bx bx-lock input-icon"></i>
+            <button type="button" class="password-toggle" id="passwordToggle">
+              <i class="bx bx-hide"></i>
+            </button>
           </div>
+          {% if form.password.errors %}
+          <div class="form-error">
+            <i class="bx bx-error-circle"></i>
+            <span>{{ form.password.errors.0 }}</span>
+          </div>
+          {% endif %}
         </div>
-        <button type="submit" class="btn btn-login">Sign In</button>
+
+        {% if form.non_field_errors %}
+        <div class="form-error non-field-errors">
+          <i class="bx bx-error-circle"></i>
+          <span>{{ form.non_field_errors.0 }}</span>
+        </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-login">
+          <span class="btn-text">Sign In</span>
+          <div class="btn-loading">
+            <i class="bx bx-loader-alt bx-spin"></i>
+          </div>
+        </button>
 
         <div class="signup-link">
           Don't have an account? <a href="{% url 'register' %}">Create one!</a>
@@ -64,3 +80,4 @@
     </div>
   </body>
 </html>
+

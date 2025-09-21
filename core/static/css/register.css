@@ -188,7 +188,7 @@ body {
   position: relative;
 }
 
-.register-input {
+input {
   width: 100%;
   padding: 14px 20px 14px 48px;
   background: rgba(255, 255, 255, 0.05);
@@ -204,7 +204,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.register-input:focus {
+input:focus {
   outline: none;
   border-color: var(--highlight);
   box-shadow: 0 0 0 3px rgb(80, 200, 120, 0.2);
@@ -220,7 +220,7 @@ body {
   transition: var(--transition-fast-ease);
 }
 
-.register-input:focus + .register-input-icon {
+input:focus + .register-input-icon {
   color: var(--highlight);
 }
 
@@ -369,5 +369,43 @@ body {
   .name-fields {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+}
+
+/* Error Messages */
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--error);
+  font-size: var(--font-size-sm);
+  margin-top: 6px;
+  animation: shake 0.3s ease-in-out;
+}
+
+input.error {
+  border-color: var(--error);
+}
+
+/* Non-field Errors */
+.non-field-errors {
+  padding: 12px;
+  background-color: rgba(239, 83, 80, 0.08);
+  border-radius: 8px;
+  border-left: 3px solid var(--error);
+  margin-bottom: 10px;
+}
+
+/* Shake Animation */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
   }
 }

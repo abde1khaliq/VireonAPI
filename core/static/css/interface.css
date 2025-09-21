@@ -870,7 +870,7 @@ body {
   width: 100%;
   height: 100%;
   transform: skewX(-20deg); /* Angle the shine for a more dynamic look */
-  
+
   /* Define the gradient for the shine */
   background: linear-gradient(
     90deg,

@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from gateway.models import APIKey, RequestLog
 from django.http import JsonResponse
+from .forms import AuthenticationForm
 
 def interface_view(request):
     return render(request, "pages/interface.html")
@@ -59,36 +60,22 @@ def register_view(request):
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('interface')
-    
+        messages.info(request, 'You are already logged in.')
+        return redirect('interface-page')
+
+    form = AuthenticationForm(request, data=request.POST or None)
+
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        if not username or not password:
-            messages.warning(
-                request, 'Please enter both username and password.')
-            return render(request, 'auth/login.html')
-
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                messages.success(request, f'Welcome back, {user.username}!')
-                return redirect('interface-page')
-            else:
-                messages.warning(
-                    request, 'Your account is inactive. Please contact support.')
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            messages.success(request, f'Welcome back, {user.username}!')
+            return redirect('interface-page')
         else:
             messages.error(request, 'Invalid username or password.')
 
-    else:
-        if request.user.is_authenticated:
-            messages.info(request, 'You are already logged in.')
-            return redirect('interface-page')
+    return render(request, 'auth/login.html', {'form': form})
 
-    return render(request, 'auth/login.html')
 
 def logout_view(request):
     logout(request)

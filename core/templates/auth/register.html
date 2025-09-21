@@ -2,158 +2,146 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vireon API | Login</title>
-    <link
-      href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="{% static 'css/register.css' %}" />
-  </head>
-  <body>
-    <div class="register-container">
-      <div class="register-header">
-        <div class="logo">
-          <img src="https://i.postimg.cc/CLJpsJm6/vireon-logo-emerald.png" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vireon API | Register</title>
+  <link href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/register.css' %}" />
+</head>
+<body>
+  <div class="register-container">
+    <div class="register-header">
+      <div class="logo">
+        <img src="https://i.postimg.cc/CLJpsJm6/vireon-logo-emerald.png" alt="Vireon Logo" />
+      </div>
+    </div>
+
+    <form class="register-form" method="post">
+      {% csrf_token %}
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      {% if form.non_field_errors %}
+        <div class="form-error non-field-errors">
+          <i class="bx bx-error-circle"></i>
+          <span>{{ form.non_field_errors.0 }}</span>
+        </div>
+      {% endif %}
+
+      <div class="name-fields">
+        <div class="register-group">
+          <label class="register-label">First Name</label>
+          <div class="register-input-wrapper">
+            {{ form.first_name }}
+            <i class="bx bx-user register-input-icon"></i>
+          </div>
+          {% if form.first_name.errors %}
+            <div class="form-error">
+              <i class="bx bx-error-circle"></i>
+              <span>{{ form.first_name.errors.0 }}</span>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="register-group">
+          <label class="register-label">Last Name</label>
+          <div class="register-input-wrapper">
+            {{ form.last_name }}
+            <i class="bx bx-user register-input-icon"></i>
+          </div>
+          {% if form.last_name.errors %}
+            <div class="form-error">
+              <i class="bx bx-error-circle"></i>
+              <span>{{ form.last_name.errors.0 }}</span>
+            </div>
+          {% endif %}
         </div>
       </div>
 
-      <form class="register-form" method="post">
-        {% csrf_token %}
-        <div class="name-fields">
-          <div class="register-group">
-            <label class="register-label">First Name</label>
-            <div class="register-input-wrapper">
-              <input
-                type="text"
-                class="register-input"
-                placeholder="First name"
-                name="first_name"
-                required
-              />
-              <i class="bx bx-user register-input-icon"></i>
-            </div>
-          </div>
-
-          <div class="register-group">
-            <label class="register-label">Last Name</label>
-            <div class="register-input-wrapper">
-              <input
-                type="text"
-                class="register-input"
-                placeholder="Last name"
-                name="last_name"
-                required
-              />
-              <i class="bx bx-user register-input-icon"></i>
-            </div>
-          </div>
+      <div class="register-group">
+        <label class="register-label">Email Address</label>
+        <div class="register-input-wrapper">
+          {{ form.email }}
+          <i class="bx bx-envelope register-input-icon"></i>
         </div>
-
-        <div class="register-group">
-          <label class="register-label">Email Address</label>
-          <div class="register-input-wrapper">
-            <input
-              type="email"
-              class="register-input"
-              placeholder="your@email.com"
-              name="email"
-              required
-            />
-            <i class="bx bx-envelope register-input-icon"></i>
+        {% if form.email.errors %}
+          <div class="form-error">
+            <i class="bx bx-error-circle"></i>
+            <span>{{ form.email.errors.0 }}</span>
           </div>
-        </div>
+        {% endif %}
+      </div>
 
-        <div class="register-group">
-          <label class="register-label">Username</label>
-          <div class="register-input-wrapper">
-            <input
-              type="text"
-              class="register-input"
-              placeholder="Choose a username"
-              name="username"
-              required
-            />
-            <i class="bx bx-user register-input-icon"></i>
+      <div class="register-group">
+        <label class="register-label">Username</label>
+        <div class="register-input-wrapper">
+          {{ form.username }}
+          <i class="bx bx-user register-input-icon"></i>
+        </div>
+        {% if form.username.errors %}
+          <div class="form-error">
+            <i class="bx bx-error-circle"></i>
+            <span>{{ form.username.errors.0 }}</span>
           </div>
-        </div>
+        {% endif %}
+      </div>
 
-        <div class="register-group">
-          <label class="register-label">Password</label>
-          <div class="register-input-wrapper">
-            <input
-              type="password"
-              id="registerPassword"
-              class="register-input"
-              placeholder="Create a password"
-              name="password1"
-              required
-            />
-            <i class="bx bx-lock register-input-icon"></i>
-            <span class="register-password-toggle" id="toggleRegisterPassword">
-              <i class="bx bx-hide"></i>
-            </span>
+      <div class="register-group">
+        <label class="register-label">Password</label>
+        <div class="register-input-wrapper">
+          {{ form.password1 }}
+          <i class="bx bx-lock register-input-icon"></i>
+          <span class="register-password-toggle" id="toggleRegisterPassword">
+            <i class="bx bx-hide"></i>
+          </span>
+        </div>
+        {% if form.password1.errors %}
+          <div class="form-error">
+            <i class="bx bx-error-circle"></i>
+            <span>{{ form.password1.errors.0 }}</span>
           </div>
-          <div class="password-strength">
-            <div class="strength-meter" id="passwordStrength"></div>
+        {% endif %}
+      </div>
+
+      <div class="register-group">
+        <label class="register-label">Confirm Password</label>
+        <div class="register-input-wrapper">
+          {{ form.password2 }}
+          <i class="bx bx-lock register-input-icon"></i>
+          <span class="register-password-toggle" id="toggleConfirmPassword">
+            <i class="bx bx-hide"></i>
+          </span>
+        </div>
+        {% if form.password2.errors %}
+          <div class="form-error">
+            <i class="bx bx-error-circle"></i>
+            <span>{{ form.password2.errors.0 }}</span>
           </div>
-          <div class="password-hints">
-            <p>Your password should contain:</p>
-            <ul>
-              <li id="lengthHint">At least 8 characters</li>
-              <li id="numberHint">At least one number</li>
-              <li id="specialHint">At least one special character</li>
-            </ul>
-          </div>
-        </div>
+        {% endif %}
+      </div>
 
-        <div class="register-group">
-          <label class="register-label">Confirm Password</label>
-          <div class="register-input-wrapper">
-            <input
-              type="password"
-              id="confirmPassword"
-              class="register-input"
-              placeholder="Confirm your password"
-              name="password2"
-              required
-            />
-            <i class="bx bx-lock register-input-icon"></i>
-            <span class="register-password-toggle" id="toggleConfirmPassword">
-              <i class="bx bx-hide"></i>
-            </span>
-          </div>
-        </div>
+      <div class="terms-agreement">
+        <input type="checkbox" id="terms" required />
+        <label for="terms">
+          I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+        </label>
+      </div>
 
-        <div class="terms-agreement">
-          <input type="checkbox" id="terms" required />
-          <label for="terms">
-            I agree to the <a href="#">Terms of Service</a> and
-            <a href="#">Privacy Policy</a>
-          </label>
-        </div>
+      <button type="submit" class="register-btn btn-register">Create Account</button>
 
-        <button type="submit" class="register-btn btn-register">
-          Create Account
-        </button>
+      <div class="login-redirect">
+        Already have an account? <a href="{% url 'login' %}">Sign in</a>
+      </div>
+    </form>
+  </div>
 
-        <div class="login-redirect">
-          Already have an account? <a href="{% url 'login' %}">Sign in</a>
-        </div>
-      </form>
-    </div>
-
-
-  </body>
   <script src="{% static 'js/register.js' %}"></script>
+</body>
 </html>
